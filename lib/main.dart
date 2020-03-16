@@ -72,12 +72,17 @@ class MyApp2 extends StatelessWidget {
                           .map((data) =>
                           Card(
                             child: ListTile(
+                              onTap: () {
+                                BlocProvider.of<EmployeeLeaveRequestBloc>(context).add(
+                                    UpdateSingleLeaveRequest(employees[i], data.copyWith(isChecked: !data.isChecked))
+                                );
+                              },
                               leading: Checkbox(
                                 value: data.isChecked,
                                 onChanged: (_) {
-                                  BlocProvider.of<EmployeeLeaveRequestBloc>(context).add(
-                                      UpdateSingleLeaveRequest(employees[i], data.copyWith(isChecked: !data.isChecked))
-                                  );
+//                                  BlocProvider.of<EmployeeLeaveRequestBloc>(context).add(
+//                                      UpdateSingleLeaveRequest(employees[i], data.copyWith(isChecked: !data.isChecked))
+//                                  );
                                 },
                               ),
                               title: Text(
@@ -86,31 +91,31 @@ class MyApp2 extends StatelessWidget {
                                 TextStyle(color: Colors.blueGrey, fontSize: 15),
                               ),
                               subtitle: Text("11 Mar 2020 - 11 Mar 2020"),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  FlatButton(
-                                    textColor: Colors.blue,
-                                    child: Text(
-                                      "Test",
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                    onPressed: () {
-                                      logger.i("Test");
-                                    },
-                                  ),
-                                  FlatButton(
-                                    textColor: Colors.blue,
-                                    child: Text(
-                                      "Test",
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                    onPressed: () {
-                                      logger.i("Test");
-                                    },
-                                  )
-                                ],
-                              ),
+//                              trailing: Row(
+//                                mainAxisSize: MainAxisSize.min,
+//                                children: <Widget>[
+//                                  FlatButton(
+//                                    textColor: Colors.blue,
+//                                    child: Text(
+//                                      "Test",
+//                                      style: TextStyle(color: Colors.blue),
+//                                    ),
+//                                    onPressed: () {
+//                                      logger.i("Test");
+//                                    },
+//                                  ),
+//                                  FlatButton(
+//                                    textColor: Colors.blue,
+//                                    child: Text(
+//                                      "Test",
+//                                      style: TextStyle(color: Colors.blue),
+//                                    ),
+//                                    onPressed: () {
+//                                      logger.i("Test");
+//                                    },
+//                                  )
+//                                ],
+//                              ),
                             ),
                           ))
                           .toList(),
