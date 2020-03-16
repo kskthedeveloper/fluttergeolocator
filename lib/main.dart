@@ -67,12 +67,18 @@ class MyApp2 extends StatelessWidget {
                       title: Text(
                           '${employees[i]} -   Requested : 10/02/2020',
                           style: TextStyle(fontSize: 15, color: Colors.blue)),
-                      children: _listViewData
+                      children: employees[i].leaveRequestList
                           .map((data) =>
                           Card(
                             child: ListTile(
+                              leading: Checkbox(
+                                value: data.isChecked,
+                                onChanged: (_) {
+
+                                },
+                              ),
                               title: Text(
-                                "${employees[i]} - $data",
+                                "$data",
                                 style:
                                 TextStyle(color: Colors.blueGrey, fontSize: 15),
                               ),

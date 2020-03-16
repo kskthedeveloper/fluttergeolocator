@@ -41,25 +41,48 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
 
   Future<List<Employee>> fetchEmployee() {
     // Imagine that this function is more complex and slow
+    LeaveRequest leaveRequest1 = new LeaveRequest(
+      id: 'L001',
+      startDate: '0101',
+      endDate: '0202',
+      isChecked: false
+    );
+
+    LeaveRequest leaveRequest2 = new LeaveRequest(
+        id: 'L002',
+        startDate: '0101',
+        endDate: '0202',
+        isChecked: false
+    );
+
+    LeaveRequest leaveRequest3 = new LeaveRequest(
+        id: 'L003',
+        startDate: '0101',
+        endDate: '0202',
+        isChecked: false
+    );
+
+    List<LeaveRequest> leaveRequestList = [leaveRequest1, leaveRequest2, leaveRequest3];
+
     Employee employee1 = Employee(
         id: '001',
         name: 'Employee 1',
         isCheck: false,
-        leaveRequestList: new List<LeaveRequest>()
+        leaveRequestList: leaveRequestList
     );
 
     Employee employee2 = Employee(
         id: '002',
         name: 'Employee 2',
         isCheck: false,
-        leaveRequestList: new List<LeaveRequest>()
+        leaveRequestList: leaveRequestList
     );
 
     Employee employee3 = Employee(
         id: '003',
         name: 'Employee 3',
         isCheck: false,
-        leaveRequestList: new List<LeaveRequest>()
+        leaveRequestList: leaveRequestList
     );
 
     List<Employee> employees = new List();
@@ -92,6 +115,14 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
 
   Stream<EmployeeLeaveRequestState> _mapUpdateEmployeeToState(UpdateEmployee event) async* {
     if(state is EmployeeLoaded) {
+      final bool isAllChecked = event.employee.leaveRequestList.every((request) => request.isChecked);
+
+      final List<LeaveRequest> updateLeaveRequest = event.employee.leaveRequestList
+        .map((leaveRequest) => leaveRequest.copyWith(isChecked: !isAllChecked))
+        .toList();
+
+      event.employee.leaveRequestList = updateLeaveRequest;
+
       final List<Employee> updateEmployees = (state as EmployeeLoaded).employees.map((employee) {
         return employee.id == event.employee.id ? event.employee : employee;
       }).toList();

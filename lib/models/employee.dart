@@ -6,9 +6,13 @@ class Employee extends Equatable {
   final String id;
   final String name;
   final bool isCheck;
-  final List<LeaveRequest> leaveRequestList;
+  List<LeaveRequest> leaveRequestList;
 
   Employee({this.id, String name = '', this.leaveRequestList, this.isCheck}) : this.name = name?? '';
+
+//  void set leaveRequestList(List<LeaveRequest> list) {
+//    this.leaveRequestList = list;
+//  }
 
   @override
   List<Object> get props => [id, name, leaveRequestList, isCheck];

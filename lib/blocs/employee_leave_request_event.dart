@@ -23,6 +23,8 @@ class UpdateEmployee extends EmployeeLeaveRequestEvent {
   String toString() {
     return 'UpdateEmployee{employee: $employee}';
   }
+}
 
+class ToggleLeaveRequest extends EmployeeLeaveRequestEvent {
 }
 
