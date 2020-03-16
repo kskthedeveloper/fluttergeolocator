@@ -56,6 +56,7 @@ class MyApp2 extends StatelessWidget {
                 employees.length,
                     (i) =>
                     ExpansionTile(
+                      backgroundColor: Colors.black12,
                       leading: Checkbox(
                         value: employees[i].isCheck,
                         onChanged: (_) {
@@ -74,7 +75,9 @@ class MyApp2 extends StatelessWidget {
                               leading: Checkbox(
                                 value: data.isChecked,
                                 onChanged: (_) {
-
+                                  BlocProvider.of<EmployeeLeaveRequestBloc>(context).add(
+                                      UpdateSingleLeaveRequest(employees[i], data.copyWith(isChecked: !data.isChecked))
+                                  );
                                 },
                               ),
                               title: Text(

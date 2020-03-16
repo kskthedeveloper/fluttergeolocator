@@ -36,6 +36,8 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
       yield* _mapLoadEmployeeToState();
     } else if (event is UpdateEmployee) {
       yield*  _mapUpdateEmployeeToState(event);
+    } else if (event is UpdateSingleLeaveRequest) {
+      yield* _mapSingleLeaveRequestToState(event);
     }
   }
 
@@ -115,10 +117,10 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
 
   Stream<EmployeeLeaveRequestState> _mapUpdateEmployeeToState(UpdateEmployee event) async* {
     if(state is EmployeeLoaded) {
-      final bool isAllChecked = event.employee.leaveRequestList.every((request) => request.isChecked);
+//      final bool isAllChecked = event.employee.leaveRequestList.every((request) => request.isChecked);
 
       final List<LeaveRequest> updateLeaveRequest = event.employee.leaveRequestList
-        .map((leaveRequest) => leaveRequest.copyWith(isChecked: !isAllChecked))
+        .map((leaveRequest) => leaveRequest.copyWith(isChecked: event.employee.isCheck))
         .toList();
 
 //      event.employee.leaveRequestList = updateLeaveRequest;
@@ -126,7 +128,19 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
       final List<Employee> updateEmployees = (state as EmployeeLoaded).employees.map((employee) {
         return employee.id == event.employee.id ? event.employee.copyWith(leaveRequestList: updateLeaveRequest) : employee;
       }).toList();
-      
+
+      yield EmployeeLoaded(updateEmployees);
+    }
+  }
+
+  Stream<EmployeeLeaveRequestState> _mapSingleLeaveRequestToState(UpdateSingleLeaveRequest event) async* {
+    if(state is EmployeeLoaded) {
+      final List<LeaveRequest> updateLeaveRequest = event.employee.leaveRequestList
+          .map((leaveRequest) => leaveRequest.id == event.leaveRequest.id ? event.leaveRequest : leaveRequest)
+          .toList();
+      final List<Employee> updateEmployees = (state as EmployeeLoaded).employees.map((employee) {
+        return employee.id == event.employee.id ? event.employee.copyWith(leaveRequestList: updateLeaveRequest) : employee;
+      }).toList();
 
       yield EmployeeLoaded(updateEmployees);
     }
