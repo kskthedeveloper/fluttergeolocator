@@ -6,7 +6,7 @@ class Employee extends Equatable {
   final String id;
   final String name;
   final bool isCheck;
-  List<LeaveRequest> leaveRequestList;
+  final List<LeaveRequest> leaveRequestList;
 
   Employee({this.id, String name = '', this.leaveRequestList, this.isCheck}) : this.name = name?? '';
 

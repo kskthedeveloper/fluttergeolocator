@@ -121,11 +121,12 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
         .map((leaveRequest) => leaveRequest.copyWith(isChecked: !isAllChecked))
         .toList();
 
-      event.employee.leaveRequestList = updateLeaveRequest;
+//      event.employee.leaveRequestList = updateLeaveRequest;
 
       final List<Employee> updateEmployees = (state as EmployeeLoaded).employees.map((employee) {
-        return employee.id == event.employee.id ? event.employee : employee;
+        return employee.id == event.employee.id ? event.employee.copyWith(leaveRequestList: updateLeaveRequest) : employee;
       }).toList();
+      
 
       yield EmployeeLoaded(updateEmployees);
     }
