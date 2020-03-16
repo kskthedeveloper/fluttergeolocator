@@ -135,11 +135,18 @@ class EmployeeLeaveRequestBloc extends Bloc<EmployeeLeaveRequestEvent, EmployeeL
 
   Stream<EmployeeLeaveRequestState> _mapSingleLeaveRequestToState(UpdateSingleLeaveRequest event) async* {
     if(state is EmployeeLoaded) {
+
+
       final List<LeaveRequest> updateLeaveRequest = event.employee.leaveRequestList
           .map((leaveRequest) => leaveRequest.id == event.leaveRequest.id ? event.leaveRequest : leaveRequest)
           .toList();
+
+      final bool isAllChecked = updateLeaveRequest.every((request) => request.isChecked);
+
       final List<Employee> updateEmployees = (state as EmployeeLoaded).employees.map((employee) {
-        return employee.id == event.employee.id ? event.employee.copyWith(leaveRequestList: updateLeaveRequest) : employee;
+        return employee.id == event.employee.id
+            ? event.employee.copyWith(leaveRequestList: updateLeaveRequest, isCheck: isAllChecked)
+            : employee;
       }).toList();
 
       yield EmployeeLoaded(updateEmployees);
